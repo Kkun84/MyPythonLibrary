@@ -28,9 +28,9 @@ class History:
         default_factory=list)
     loss: typing.List[float] = dataclasses.field(
         default_factory=list)
-    report: typing.List[str] = dataclasses.field(
-        default_factory=list)
     update: typing.List[bool] = dataclasses.field(
+        default_factory=list)
+    report: typing.List[str] = dataclasses.field(
         default_factory=list)
 
     def append(self, **kwargs):
