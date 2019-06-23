@@ -3,6 +3,7 @@ import dataclasses
 import collections
 
 import numpy as np
+import pandas as pd
 
 import torch
 
@@ -36,6 +37,16 @@ class History:
     def append(self, **kwargs):
         for key in kwargs.keys():
             self.__dict__[key].append(kwargs[key])
+
+    def save_csv(self, path):
+        src = pd.DataFrame(self.__dict__)
+        src.to_csv(path, index=False)
+
+    @staticmethod
+    def load_csv(path):
+        dst = pd.read_csv(path)
+        dst = History(**dst.to_dict('list'))
+        return dst
 
 
 class ReplayMemory(collections.UserList):
