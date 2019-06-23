@@ -19,19 +19,19 @@ class Transition:
 @dataclasses.dataclass
 class History:
     step: typing.List[int] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     lr: typing.List[float] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     epsilon: typing.List[float] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     reward: typing.List[float] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     loss: typing.List[float] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     report: typing.List[str] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
     update: typing.List[bool] = dataclasses.field(
-        init=False, default_factory=list)
+        default_factory=list)
 
     def append(self, **kwargs):
         for key in kwargs.keys():
