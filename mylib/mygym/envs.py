@@ -57,11 +57,13 @@ class SquareField(gym.Env):
             raise ValueError('Sorry, "human" is not yet supported.')
 
         elif mode == 'rgb_array':
-            dst = np.zeros([self.__size + 2] * 2 + [3])
+            dst = np.zeros([self.__size + 2] * 2 + [3], dtype=int)
             for i in [0]:
-                dst[[0, -1], :, i] = dst[:, [0, -1], i] = 0.5
+                dst[[0, -1], :, i] = dst[:, [0, -1], i] = 0x80
             if self.__is_in_field():
                 for i in [0, 1, 2]:
+                    dst[self.__position[1] + 1, self.__position[0] + 1, i] = 0xff
+
             for i in range(2):
                 dst = dst.repeat(self.__render_size, axis=i)
 
