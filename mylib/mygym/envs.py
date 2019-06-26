@@ -33,8 +33,10 @@ class SquareField(gym.Env):
         return 1.0 if not self.__is_done() else -1.0
 
     def reset(self):
-        self.__position = np.array(
-            [0, 0] if self.__seed is None else divmod(self.__seed, self.__size), dtype=int)
+        self.__position = (
+            np.random.randint(self.__size, size=2) if self.__seed is None else
+            np.array(divmod(self.__seed, self.__size), dtype=int)
+        )
         observation = self.__observe()
         return observation
 
