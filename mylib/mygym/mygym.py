@@ -38,6 +38,9 @@ class History:
         for key in kwargs.keys():
             self.__dict__[key].append(kwargs[key])
 
+    def to_dict(self):
+        return dataclasses.asdict(self)
+
     def save_csv(self, path):
         src = pd.DataFrame(self.__dict__)
         src.to_csv(path, index=False)
