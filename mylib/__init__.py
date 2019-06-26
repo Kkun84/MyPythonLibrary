@@ -1,1 +1,1 @@
-from .mylib import ljust, all_index
+from .mylib import ljust, all_index, flatten
