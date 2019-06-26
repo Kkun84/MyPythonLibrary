@@ -22,3 +22,22 @@ def flatten(src):
     dst = tuple(dst)
     return dst
 
+
+def to_str(src, n=5, sep=', '):
+    if hasattr(src, '__iter__') and not isinstance(src, str):
+        dst = '['
+        for s in src:
+            dst += to_str(s, n)
+            dst += sep
+        if len(src) > 0:
+            dst = dst[:-len(sep)]
+        dst += ']'
+    else:
+        if isinstance(src, float):
+            dst = ljust(f"{src:f}", n) if 'e' in str(
+                src) else ljust(str(src), n)
+        elif isinstance(src, int):
+            dst = ljust(str(src), n)
+        else:
+            dst = str(src)
+    return dst
