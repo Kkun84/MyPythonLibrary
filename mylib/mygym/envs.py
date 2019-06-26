@@ -5,13 +5,14 @@ import gym
 
 
 class SquareField(gym.Env):
-    def __init__(self, size=3, **kwargs):
+    def __init__(self, size=3, render_size=40, **kwargs):
         super().__init__()
 
         if 'kwargs' in kwargs:
             kwargs = kwargs['kwargs']
 
         self.__size = kwargs['size'] if 'size' in kwargs else size
+        self.__render_size = kwargs['render_size'] if 'render_size' in kwargs else render_size
         self.__seed = None
         self.__position = None
 
@@ -59,7 +60,8 @@ class SquareField(gym.Env):
                 dst[[0, -1], :, i] = dst[:, [0, -1], i] = 0.5
             if self.__is_in_field():
                 for i in [0, 1, 2]:
-                    dst[self.__position[1] + 1, self.__position[0] + 1, i] = 1
+            for i in range(2):
+                dst = dst.repeat(self.__render_size, axis=i)
 
         elif mode == 'ansi':
             dst = [['+'] * (self.__size + 2) for i in range(self.__size + 2)]
