@@ -24,7 +24,7 @@ def flatten(src):
 
 
 def mean(x):
-    x = mylib.flatten(x)
+    x = flatten(x)
     x = sum(x) / len(x)
     return x
 
