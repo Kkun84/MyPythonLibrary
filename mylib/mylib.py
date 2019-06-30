@@ -23,6 +23,11 @@ def flatten(src):
     return dst
 
 
+def mean(x):
+    x = mylib.flatten(x)
+    x = sum(x) / len(x)
+    return x
+
 def to_str(src, n=5, sep=', '):
     if hasattr(src, '__iter__') and not isinstance(src, str):
         dst = '['
