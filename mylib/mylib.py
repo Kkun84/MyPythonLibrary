@@ -54,6 +54,8 @@ def to_str(src, n=5, sep=', '):
         if isinstance(src, float):
             dst = ljust(f"{src:f}", n) if 'e' in str(
                 src) else ljust(str(src), n)
+        elif isinstance(src, bool):
+            dst = ljust(str(src), 5)
         elif src is None:
             dst = ''
         else:
