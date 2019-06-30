@@ -28,6 +28,19 @@ def mean(x):
     x = sum(x) / len(x)
     return x
 
+
+def multiple(src, *func):
+    if hasattr(src, '__iter__'):
+        dst = []
+        for i in src:
+            dst.append(multiple(i, *func))
+    else:
+        dst = src
+        for f in func:
+            dst = f(dst)
+    return dst
+
+
 def to_str(src, n=5, sep=', '):
     if hasattr(src, '__iter__') and not isinstance(src, str):
         dst = '['
