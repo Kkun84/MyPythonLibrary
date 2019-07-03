@@ -51,6 +51,13 @@ class History:
         dst = History(**dst.to_dict('list'))
         return dst
 
+    @classmethod
+    def buffer(cls):
+        changes = {key: value.__args__[0]() for key, value in
+                   cls.__annotations__.items()}
+        replaced = dataclasses.replace(cls(), **changes)
+        return replaced
+
 
 class ReplayMemory(collections.UserList):
     def __init__(self, capacity, batch_size=None):
