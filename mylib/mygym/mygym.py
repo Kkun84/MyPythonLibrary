@@ -16,6 +16,9 @@ class Transition:
     reward: torch.Tensor
     done: bool
 
+    def to_dict(self):
+        return dataclasses.asdict(self)
+
 
 @dataclasses.dataclass
 class History:
