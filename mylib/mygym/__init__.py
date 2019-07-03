@@ -22,5 +22,10 @@ for p in sys.path:
         entry_point=path + ':SquareField'
     )
 
+    register(
+        id='BoxField-v0',
+        entry_point=path + ':BoxField'
+    )
+
     del register
     break
