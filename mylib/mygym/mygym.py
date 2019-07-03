@@ -17,6 +17,9 @@ class Transition:
     done: bool
 
     def to_dict(self):
+        return dataclasses.astuple(self)
+
+    def to_dict(self):
         return dataclasses.asdict(self)
 
 
@@ -98,6 +101,8 @@ class ReplayMemory(collections.UserList):
     def sample(self, batch_size=None):
         if batch_size is None:
             batch_size = self._batch_size
+        if batch_size is None:
+            raise ValueError('"batch_size" must be int, but It was None.')
         dst = np.random.choice(self, batch_size, replace=False)
         dst = list(dst)
         return dst
