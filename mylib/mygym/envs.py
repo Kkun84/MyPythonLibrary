@@ -123,7 +123,7 @@ class BoxField(gym.Env):
     def _observe(self):
         position = np.zeros_like(self._map)
         position[tuple(self._position)] = 0xff
-        observe = np.dstack([self._map, position]) / 0xff
+        observe = np.array([self._map, position]) / 0xff
         return observe
 
     def _get_reward(self):
