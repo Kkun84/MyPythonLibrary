@@ -185,7 +185,8 @@ class BoxField(gym.Env):
             rendered[0, -1] = '┐'
             rendered[-1, 0] = '└'
             rendered[-1, -1] = '┘'
-            rendered[1:-1,  1:-1][1 <= self._map] = '[]'
+            rendered[1:-1, 1:-1][1 <= self._map] = '[]'
+            rendered[1:-1, 1:-1][tuple(self._position)] = '<>'
             rendered = '\n'.join([''.join(i) for i in rendered])
 
         else:
