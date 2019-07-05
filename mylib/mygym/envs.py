@@ -101,8 +101,9 @@ class BoxField(gym.Env):
 
         if len(shape) != 2:
             raise ValueError('Set the length of "shape" to 2.')
-        if directions not in [4, 8]:
-            raise ValueError('The value of "directions" must be 4 or 8.')
+        if directions not in [4, 5, 8, 9]:
+            raise ValueError(
+                'The value of "directions" must be 4 or 5 or 8 or 9.')
 
         self._seed = None
         self._position = None
@@ -116,8 +117,14 @@ class BoxField(gym.Env):
     def _action(self, n):
         if not 0 <= n < self.action_space.n:
             raise ValueError('not 0 <= n < action_space.n')
-        action = [[0, 1], [-1, 0], [0, -1], [1, 0],
-                  [-1, 1], [-1, -1], [1, -1], [1, 1]][n]
+        action = {
+            4: [[0, 1], [-1, 0], [0, -1], [1, 0]],
+            5: [[0, 1], [-1, 0], [0, -1], [1, 0], [0, 0]],
+            8: [[0, 1], [-1, 1], [-1, 0], [-1, -1],
+                [0, -1], [1, -1], [1, 0], [1, 1]],
+            9: [[0, 1], [-1, 1], [-1, 0], [-1, -1],
+                [0, -1], [1, -1], [1, 0], [1, 1], [0, 0]],
+        }[self.action_space.n][n]
         return action
 
     def _observe(self):
@@ -211,10 +218,10 @@ if __name__ == "__main__":
 
     print('#' * 20)
 
-    env = BoxField([8, 4])
-    env.seed(45)
+    env = BoxField([8, 6], 9)
+    env.seed(34)
     env.reset()
     print(env.render('ansi'))
-    for i in range(4):
-        print(env.step(0)[1:])
+    for i in range(9):
+        print(env.step(i)[1:])
         print(env.render('ansi'))
