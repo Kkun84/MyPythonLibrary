@@ -47,4 +47,13 @@ def make_animation(array, fps=50, figsize=None, path=None):
 
 
 def save_as_mp4(path, array, fps=50):
-    skvideo.io.vwrite(path, array, inputdict={'-r': str(fps)})
+    dim = array[0].ndim
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(path, fourcc, fps,
+                        array[0].shape[1::-1], isColor=dim == 3)
+    for im in array:
+        if dim == 3:
+            im = cv2.cvtColor(im, cv2.COLOR_RGB2BGR)
+        out.write(im)
+    out.release()
+    # skvideo.io.vwrite(path, array, inputdict={'-r': str(fps)})
