@@ -46,7 +46,5 @@ def make_animation(array, fps=50, figsize=None, path=None):
     return ani
 
 
-def save_as_mp4(path, array, fps=50, verbosity=0):
-    skvideo.io.vwrite(
-        path, array, inputdict={'-r': str(fps)}, verbosity=verbosity
-    )
+def save_as_mp4(path, array, fps=50):
+    skvideo.io.vwrite(path, array, inputdict={'-r': str(fps)})
