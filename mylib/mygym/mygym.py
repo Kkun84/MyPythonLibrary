@@ -2,7 +2,7 @@ import typing
 import dataclasses
 import collections
 
-import numpy as np
+import random
 import pandas as pd
 
 import torch
@@ -103,7 +103,7 @@ class ReplayMemory(collections.UserList):
             batch_size = self._batch_size
         if batch_size is None:
             raise ValueError('"batch_size" must be int, but It was None.')
-        dst = np.random.choice(self, batch_size, replace=False)
+        dst = random.sample(self, batch_size, replace=False)
         dst = list(dst)
         return dst
 
