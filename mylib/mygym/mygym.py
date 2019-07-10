@@ -104,7 +104,6 @@ class ReplayMemory(collections.UserList):
         if batch_size is None:
             raise ValueError('"batch_size" must be int, but It was None.')
         dst = random.sample(self, batch_size)
-        dst = list(dst)
         return dst
 
     def __call__(self, batch_size=None):
