@@ -14,13 +14,29 @@ class Transition:
     action: torch.Tensor
     next_state: torch.Tensor
     reward: torch.Tensor
-    done: bool
+    done: torch.Tensor
 
     def to_tuple(self):
         return dataclasses.astuple(self)
 
     def to_dict(self):
         return dataclasses.asdict(self)
+
+    @classmethod
+    def from_transitions(cls, transitions):
+        """Transitionインスタンス配列をまとめたインスタンスを返す
+
+        Args:
+            transitions (list[Transition]): 要素がTransitionインスタンスの配列
+
+        Returns:
+            Transition: Transitionのインスタンス
+        """
+        retval = cls(*zip(*[
+            [t.__dict__[key] for key in cls.__dataclass_fields__.keys()]
+            for t in transitions
+        ]))
+        return retval
 
 
 @dataclasses.dataclass
