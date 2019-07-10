@@ -16,7 +16,7 @@ class Transition:
     reward: torch.Tensor
     done: bool
 
-    def to_dict(self):
+    def to_tuple(self):
         return dataclasses.astuple(self)
 
     def to_dict(self):
