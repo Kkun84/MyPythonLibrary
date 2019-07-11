@@ -60,6 +60,12 @@ def save_as_mp4(path, array, fps=50):
         out = cv2.VideoWriter(path, fourcc, fps,
                               array[0].shape[1::-1], isColor=dim == 3)
         for im in array:
+            if im.dtype.kind == 'b':
+                im = im.astype(np.uint8) * 0xff
+            elif im.dtype.kind == 'f':
+                im = (im * 0xff).astype(np.uint8)
+            else:
+                im = im.astype(np.uint8)
             if dim == 3:
                 im = cv2.cvtColor(im, cv2.COLOR_RGB2BGR)
             out.write(im)
