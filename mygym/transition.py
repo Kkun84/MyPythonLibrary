@@ -1,12 +1,12 @@
 import random
 
 import collections
-import dataclasses
+import dataclasses as dc
 
 import torch
 
 
-@dataclasses.dataclass(frozen=True)
+@dc.dataclass(frozen=True)
 class Transition:
     state: torch.Tensor
     action: torch.Tensor
@@ -15,10 +15,10 @@ class Transition:
     done: torch.Tensor
 
     def to_tuple(self):
-        return dataclasses.astuple(self)
+        return dc.astuple(self)
 
     def to_dict(self):
-        return dataclasses.asdict(self)
+        return dc.asdict(self)
 
     @classmethod
     def from_transitions(cls, transitions):
