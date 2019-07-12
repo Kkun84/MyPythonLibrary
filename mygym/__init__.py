@@ -5,27 +5,28 @@ from .mygym import Epsilon
 from . import wrappers
 from . import envs
 
-import os
-import sys
 
-
-path = os.path.dirname(__file__) + '/envs'
-for p in sys.path:
-    if not (p and path.startswith(p)):
-        continue
-    path = path[len(p) + 1:].replace('/', '.')
-
+def _register_myenvs():
+    import os
+    import sys
     from gym.envs.registration import register
 
-    register(
-        id='SquareField-v0',
-        entry_point=path + ':SquareField'
-    )
+    path = os.path.dirname(__file__) + '/envs'
+    for p in sys.path:
+        if not (p and path.startswith(p)):
+            continue
+        path = path[len(p) + 1:].replace('/', '.')
 
-    register(
-        id='BoxField-v0',
-        entry_point=path + ':BoxField'
-    )
+        register(
+            id='SquareField-v0',
+            entry_point=path + ':SquareField'
+        )
 
-    del register
-    break
+        register(
+            id='BoxField-v0',
+            entry_point=path + ':BoxField'
+        )
+
+
+_register_myenvs()
+del _register_myenvs
