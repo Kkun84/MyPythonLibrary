@@ -89,8 +89,8 @@ class BoxField(gym.Env):
         self._map[tuple(self._position)] = 0xff
 
         observation = self._observe()
-        self._done.reset(env, observation)
-        self._reward.reset(env, observation)
+        self._done.reset(self, observation)
+        self._reward.reset(self, observation)
 
         return observation
 
