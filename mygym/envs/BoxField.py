@@ -3,6 +3,26 @@ import numpy as np
 import gym
 import gym.spaces
 
+from .core import BaseDone, BaseReward
+
+
+class Done(BaseDone):
+
+    def reset(self, env, state):
+        pass
+
+    def __call__(self, env, state):
+        return False
+
+
+class Reward(BaseReward):
+
+    def reset(self, env, state):
+        pass
+
+    def __call__(self, env, state, done):
+        return 0
+
 
 class BoxField(gym.Env):
     def __init__(self, shape=[32, 32], directions=8, reward=None, done=None, **kwargs):
@@ -12,8 +32,18 @@ class BoxField(gym.Env):
             kwargs = kwargs['kwargs']
         shape = kwargs.get('shape', shape)[::-1]
         directions = kwargs.get('directions', directions)
+
         self._reward = kwargs.get('reward', reward)
+        if self._reward is None:
+            self._reward = Reward()
+        elif not isinstance(self._reward, BaseReward):
+            raise ''
+
         self._done = kwargs.get('done', done)
+        if self._done is None:
+            self._done = Done()
+        elif not isinstance(self._done, BaseDone):
+            raise ''
 
         if len(shape) != 2:
             raise ValueError('Set the length of "shape" to 2.')
@@ -49,20 +79,6 @@ class BoxField(gym.Env):
         observe = np.array([self._map, position]) / 0xff
         return observe
 
-    def _get_reward(self):
-        if self._reward is not None:
-            reward = self._reward(self._position)
-        else:
-            reward = 0
-        return reward
-
-    def _is_done(self):
-        if self._done is not None:
-            done = self._done(self._position)
-        else:
-            done = False
-        return done
-
     def reset(self):
         self._position = (
             self._map.shape * np.random.rand(2) if self._seed is None else
@@ -71,7 +87,11 @@ class BoxField(gym.Env):
         ).astype(np.uint8)
         self._map = np.zeros_like(self._map, dtype=np.uint8)
         self._map[tuple(self._position)] = 0xff
+
         observation = self._observe()
+        self._done.reset(env, observation)
+        self._reward.reset(env, observation)
+
         return observation
 
     def seed(self, seed=None):
@@ -87,8 +107,8 @@ class BoxField(gym.Env):
         else:
             self._position = self._position_prev
         observation = self._observe()
-        reward = self._get_reward()
-        done = self._is_done()
+        done = self._done(self, observation)
+        reward = self._reward(self, observation, done)
         return observation, reward, done, {}
 
     def render(self, mode='human', close=False):
