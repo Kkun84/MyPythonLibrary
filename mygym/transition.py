@@ -80,3 +80,10 @@ class ReplayMemory(collections.UserList):
 
     def __call__(self, batch_size=None):
         return self.sample(batch_size)
+
+
+if __name__ == "__main__":
+    memory = ReplayMemory(3, 2)
+    for i in range(8):
+        memory.append(i)
+        print(i, memory)
