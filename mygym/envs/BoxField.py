@@ -116,7 +116,11 @@ class BoxField(gym.Env):
             raise ValueError('Sorry, "human" is not yet supported.')
 
         elif mode == 'rgb_array':
-            rendered = np.dstack([0xff - self._map]*3)
+            rendered = np.full([*self._map.shape, 3], 0xff)
+            x, y = np.meshgrid(*[np.arange(i) for i in rendered.shape[:2]])
+            rendered[x % 4 == 3] = 0xe0
+            rendered[y % 4 == 3] = 0xe0
+            rendered[self._map > 0] = [0] * 3
             rendered[tuple(self._position)] = [0xff, 0, 0]
 
         elif mode == 'ansi':
