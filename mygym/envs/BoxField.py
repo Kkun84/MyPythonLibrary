@@ -30,7 +30,7 @@ class BoxField(gym.Env):
 
         if 'kwargs' in kwargs:
             kwargs = kwargs['kwargs']
-        shape = kwargs.get('shape', shape)[::-1]
+        shape = kwargs.get('shape', shape)
         directions = kwargs.get('directions', directions)
 
         self._reward = kwargs.get('reward', reward)
