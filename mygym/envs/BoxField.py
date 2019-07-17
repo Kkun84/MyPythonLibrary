@@ -3,7 +3,8 @@ import numpy as np
 import gym
 import gym.spaces
 
-from .core import BaseDone, BaseReward
+from mygym.done import BaseDone
+from mygym.reward import BaseReward
 
 
 class Done(BaseDone):
@@ -149,7 +150,7 @@ class BoxField(gym.Env):
 
 
 if __name__ == "__main__":
-    env = BoxField([8, 6], 9)
+    env = BoxField([6, 8], 9)
     env.seed(34)
     env.reset()
     print(env.render('ansi'))

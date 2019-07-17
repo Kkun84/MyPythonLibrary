@@ -1,5 +1,3 @@
-from .core import BaseDone
-from .core import BaseReward
 from .SquareField import SquareField
 from .BoxField import BoxField
 
