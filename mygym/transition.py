@@ -14,12 +14,6 @@ class Transition:
     reward: torch.Tensor
     done: torch.Tensor
 
-    def to_tuple(self):
-        return dc.astuple(self)
-
-    def to_dict(self):
-        return dc.asdict(self)
-
     @classmethod
     def from_transitions(cls, transitions):
         """Transitionインスタンス配列をまとめたインスタンスを返す
