@@ -13,8 +13,6 @@ def _register_myenvs():
             continue
         path = path[len(p) + 1:].replace('/', '.')
 
-        print(path)
-
         register(
             id='SquareField-v0',
             entry_point=path + ':SquareField'
