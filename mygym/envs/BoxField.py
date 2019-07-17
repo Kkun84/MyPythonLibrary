@@ -53,6 +53,7 @@ class BoxField(gym.Env):
                 'The value of "directions" must be 4 or 5 or 8 or 9.')
 
         self._seed = None
+        self._start = None
         self._position = None
         self._position_prev = None
         self._map = np.zeros(shape, dtype=np.uint8)
@@ -86,6 +87,7 @@ class BoxField(gym.Env):
             np.array([self._seed // self._map.shape[1] % self._map.shape[0],
                       self._seed % self._map.shape[1]])
         ).astype(np.uint8)
+        self._start = self._position
         self._map = np.zeros_like(self._map, dtype=np.uint8)
         self._map[tuple(self._position)] = 0xff
 
@@ -122,6 +124,7 @@ class BoxField(gym.Env):
             rendered[x % 4 == 3] = 0xe0
             rendered[y % 4 == 3] = 0xe0
             rendered[self._map > 0] = [0] * 3
+            rendered[tuple(self._start)] = [0, 0, 0xff]
             rendered[tuple(self._position)] = [0xff, 0, 0]
 
         elif mode == 'ansi':
