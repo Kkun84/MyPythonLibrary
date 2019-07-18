@@ -24,7 +24,7 @@ class ImageMaxPseudoHammingDistanceReward(BaseReward):
         dist_image, mask_image = self._make_dist_mask(state[0])
         distance = (self.func(dist_image * self.mask_target, (1, 2)) +
                     self.func(self.dist_target * mask_image, (1, 2)))
-        distance = -distance.min()
+        distance = -distance.min().item()
         return distance
 
     @staticmethod

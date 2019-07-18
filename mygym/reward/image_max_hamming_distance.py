@@ -21,5 +21,5 @@ class ImageMaxHammingDistanceReward(BaseReward):
     def __call__(self, env, state, done):
         reward = state[0] != self.target
         reward = self.func(reward, axis=(1, 2))
-        reward = -reward.min()
+        reward = -reward.min().item()
         return reward
