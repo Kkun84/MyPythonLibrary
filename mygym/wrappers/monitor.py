@@ -2,9 +2,10 @@ import gym
 
 
 class Monitor(gym.Wrapper):
-    def __init__(self, env):
+    def __init__(self, env, mode):
         super().__init__(env)
         self._images = []
+        self.mode = mode
 
     def step(self, action):
         observation, reward, done, info = self.env.step(action)
@@ -25,5 +26,5 @@ class Monitor(gym.Wrapper):
         self._images = []
 
     def _record(self):
-        image = self.env.render('rgb_array')
+        image = self.env.render(self.mode)
         self._images.append(image)
