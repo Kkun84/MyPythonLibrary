@@ -82,11 +82,16 @@ class BoxField(gym.Env):
         return observe
 
     def reset(self):
-        self._position = (
-            self._map.shape * np.random.rand(2) if self._seed is None else
-            np.array([self._seed // self._map.shape[1] % self._map.shape[0],
-                      self._seed % self._map.shape[1]])
-        ).astype(np.uint8)
+        if self._seed is None:
+            self._position = (
+                self._map.shape * np.random.rand(2)).astype(np.uint8)
+        elif hasattr(self._seed, '__iter__'):
+            self._position = np.array(self._seed).astype(np.uint8)
+        elif not isinstance(self._seed, int):
+            self._position = np.array([
+                self._seed // self._map.shape[1] % self._map.shape[0],
+                self._seed % self._map.shape[1]]).astype(np.uint8)
+
         self._start = self._position
         self._map = np.zeros_like(self._map, dtype=np.uint8)
         self._map[tuple(self._position)] = 0xff
@@ -98,7 +103,10 @@ class BoxField(gym.Env):
         return observation
 
     def seed(self, seed=None):
-        if not isinstance(seed, int):
+        if hasattr(seed, '__iter__'):
+            if not len(seed) == 2:
+                raise ValueError('not len(seed) == 2.')
+        elif not isinstance(seed, int):
             raise ValueError('not isinstance(seed, int).')
         self._seed = seed
 
