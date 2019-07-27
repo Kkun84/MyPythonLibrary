@@ -126,11 +126,17 @@ class BoxField(gym.Env):
         if mode == 'human':
             raise ValueError('Sorry, "human" is not yet supported.')
 
-        elif mode == 'rgb_array':
+        elif mode == 'rgb_array_grid':
             rendered = np.full([*self._map.shape, 3], 0xff)
             x, y = np.meshgrid(*[np.arange(i) for i in rendered.shape[:2]])
             rendered[x % 4 == 3] = 0xe0
             rendered[y % 4 == 3] = 0xe0
+            rendered[self._map > 0] = [0] * 3
+            rendered[tuple(self._start)] = [0, 0, 0xff]
+            rendered[tuple(self._position)] = [0xff, 0, 0]
+
+        elif mode == 'rgb_array':
+            rendered = np.full([*self._map.shape, 3], 0xff)
             rendered[self._map > 0] = [0] * 3
             rendered[tuple(self._start)] = [0, 0, 0xff]
             rendered[tuple(self._position)] = [0xff, 0, 0]
@@ -151,7 +157,6 @@ class BoxField(gym.Env):
         else:
             raise ValueError(
                 'The value of "mode" is invalid. '
-                'Must be "human", "rgb_array" or "ansi".'
             )
 
         return rendered
