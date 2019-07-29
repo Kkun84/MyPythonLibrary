@@ -27,12 +27,11 @@ class MeasureTime():
         self.last, dt = t, t - self.last
         return dt
     
-    def reset(self, id):
-        t = time.time()
-        self._time[id] = t
-        return id
+
+if __name__ == "__main__":
+    measure_time = MeasureTime()
+    print(get_datetime())
     
-    def get(self, id):
-        t = time.time()
-        dt =  t - self._time[id]
-        return dt
+    measure_time()
+    time.sleep(0.1)
+    print(measure_time())
