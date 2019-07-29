@@ -20,11 +20,12 @@ def record_time(func, timezone='Asia/Tokyo'):
 
 class MeasureTime():
     def __init__(self):
-        self._time = {}
-        return
+        self.last = time.time()
     
-    def list(self):
-        return self._time.keys()
+    def __call__(self):
+        t = time.time()
+        self.last, dt = t, t - self.last
+        return dt
     
     def reset(self, id):
         t = time.time()
