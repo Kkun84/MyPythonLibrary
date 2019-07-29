@@ -2,8 +2,10 @@ import datetime
 import time
 import pytz
 
+
 def get_datetime(timezone='Asia/Tokyo'):
     return datetime.datetime.now(tz=pytz.timezone(timezone))
+
 
 def record_time(func, timezone='Asia/Tokyo'):
     def wrapper(*args, **kwargs):
@@ -17,6 +19,7 @@ def record_time(func, timezone='Asia/Tokyo'):
         print(f'\n↑--end_time  : {end_time}--↑({diff_time})')
         return retvalue
     return wrapper
+
 
 class MeasureTime():
     def __init__(self):
