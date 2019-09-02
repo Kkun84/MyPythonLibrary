@@ -3,15 +3,19 @@ from .core import BaseReward
 
 class Add(BaseReward):
 
-    def __init__(self, class_, value):
-        if not isinstance(class_, BaseReward):
-            raise ValueError('not isinstance(self.class_, BaseReward)')
-        self.class_ = class_
-        self.value = value
+    def __init__(self, *reward_class):
+        for c in reward_class:
+            if not isinstance(c, BaseReward):
+                raise ValueError(
+                    f'{c} is not an instance of a subclass of BaseReward.')
+        self.reward_class = reward_class
 
     def reset(self, env, state):
-        self.class_.reset(env, state)
+        for c in self.reward_class:
+            c.reset(env, state)
 
     def __call__(self, env, state, done):
-        reward = self.class_(env, state, done) + self.value
+        reward = 0
+        for c in self.reward_class:
+            reward += c(env, state, done)
         return reward
